@@ -29,6 +29,22 @@ class UserController {
       // It determines what is sent back to the client
       .send(successMessage(MESSAGES.CREATED, user));
   }
+
+  //Delete user account entirely from the database
+  async deleteUserAccount(req, res) {
+    const user = await userService.getUserById(req.params.id);
+
+    if (!user) return res.status(404).send(errorMessage(user));
+
+    if (req.user._id != user._id)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("delete")));
+
+    await userService.softDeleteUser(req.params.id);
+
+    res.send(successMessage(MESSAGES.DELETED, user));
+  }
 }
 
 module.exports = new UserController();
