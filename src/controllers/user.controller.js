@@ -30,6 +30,22 @@ class UserController {
       .send(successMessage(MESSAGES.CREATED, user));
   }
 
+  //Update/edit user data
+  async updateUserProfile(req, res) {
+    const user = await userService.getUserById(req.params.id);
+
+    if (!user) return res.status(404).send(errorMessage(user));
+
+    if (req.user._id != user._id)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
+
+    await userService.updateUserById(req.params.id, req.body);
+
+    res.send(successMessage(MESSAGES.UPDATED, user));
+  }
+
   //Delete user account entirely from the database
   async deleteUserAccount(req, res) {
     const user = await userService.getUserById(req.params.id);

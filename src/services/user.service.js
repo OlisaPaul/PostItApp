@@ -11,6 +11,18 @@ class UserService {
     return await user.save();
   }
 
+  async updateUserById(id, user) {
+    //makes email case insensitive
+
+    return await User.findByIdAndUpdate(
+      id,
+      {
+        $set: user,
+      },
+      { new: true }
+    );
+  }
+
   async deleteUser(id) {
     return await User.findByIdAndRemove(id);
   }

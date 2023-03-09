@@ -17,6 +17,13 @@ router.post(
   asyncMiddleware(userController.register)
 );
 
+router.put(
+  "/:id",
+  validateObjectId,
+  validateMiddleware(validate),
+  asyncMiddleware(userController.updateUserProfile)
+);
+
 router.delete(
   "/:id",
   validateObjectId,
