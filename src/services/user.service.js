@@ -10,6 +10,10 @@ class UserService {
 
     return await user.save();
   }
+
+  async deleteUser(id) {
+    return await User.findByIdAndRemove(id);
+  }
 }
 
 module.exports = new UserService();
