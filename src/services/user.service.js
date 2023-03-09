@@ -11,6 +11,15 @@ class UserService {
     return await user.save();
   }
 
+  async getUserById(userId) {
+    //Makes email search filter case insensitive and a lot more broad(even if search parameter isnt completely correct.)
+    return await User.findOne({ _id: userId, isDeleted: undefined });
+  }
+
+  async getAllUsers() {
+    return await User.find({ isDeleted: undefined });
+  }
+
   async updateUserById(id, user) {
     //makes email case insensitive
 

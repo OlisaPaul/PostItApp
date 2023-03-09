@@ -17,6 +17,14 @@ router.post(
   asyncMiddleware(userController.register)
 );
 
+router.get("/", asyncMiddleware(userController.fetchAllUsers));
+
+router.get(
+  "/:id",
+  validateObjectId,
+  asyncMiddleware(userController.gethUserById)
+);
+
 router.put(
   "/:id",
   validateObjectId,
