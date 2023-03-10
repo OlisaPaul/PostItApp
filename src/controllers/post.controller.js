@@ -33,6 +33,11 @@ class PostController {
 
     if (!post) return res.status(404).send(errorMessage(post));
 
+    if (req.user._id != post.userId)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
+
     await postService.updatePostById(req.params.id, req.body);
 
     res.send(successMessage(MESSAGES.UPDATED, post));
