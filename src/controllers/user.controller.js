@@ -30,6 +30,28 @@ class UserController {
       .send(successMessage(MESSAGES.CREATED, user));
   }
 
+  //get user from the database, using their email
+  async gethUserById(req, res) {
+    const user = await userService.getUserById(req.params.id);
+
+    if (user) {
+      res.send(successMessage(MESSAGES.FETCHED, user));
+    } else {
+      res.status(404).send(errorMessage(user));
+    }
+  }
+
+  //get all users in the user collection/table
+  async fetchAllUsers(req, res) {
+    const users = await userService.getAllUsers();
+
+    if (users) {
+      res.send(successMessage(MESSAGES.FETCHED, users));
+    } else {
+      res.status(404).send(errorMessage(users));
+    }
+  }
+
   //Update/edit user data
   async updateUserProfile(req, res) {
     const user = await userService.getUserById(req.params.id);
@@ -54,7 +76,7 @@ class UserController {
     if (!user) return res.status(404).send(errorMessage(user));
 
     // makes sure the user can only delete their account
-    if (req.user._id !== user._id)
+    if (req.user._id != user._id)
       return res
         .status(401)
         .send(unAuthMessage(MESSAGES.UNAUTHORIZE("delete")));
