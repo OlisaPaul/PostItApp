@@ -10,6 +10,16 @@ const { Comment, validate, validatePatch } = require("../model/comment");
 const { Post } = require("../model/post");
 const commentController = require("../controllers/comment.controller");
 
+router.get(
+  "/",
+  // the asyncMiddleware function is used to handle promise rejection
+  asyncMiddleware(commentController.fetchAllComment)
+);
+
+router.get("/post/:id", asyncMiddleware(commentController.getCommentByPostId));
+
+router.get("/:id", asyncMiddleware(commentController.getCommentById));
+
 router.post(
   "/",
   [validateMiddleware(validate)],

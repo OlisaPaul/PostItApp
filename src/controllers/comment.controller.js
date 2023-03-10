@@ -34,6 +34,38 @@ class CommentController {
     res.send(comment);
   }
 
+  //get all comments in the comment collection/table
+  async fetchAllComment(req, res) {
+    const comments = await commentService.getAllComments();
+
+    if (comments) {
+      res.send(successMessage(MESSAGES.FETCHED, comments));
+    } else {
+      res.status(404).send(errorMessage(comments));
+    }
+  }
+
+  //get comment from the database, using their email
+  async getCommentById(req, res) {
+    const comment = await commentService.getCommentById(req.params.id);
+
+    if (comment) {
+      res.send(successMessage(MESSAGES.FETCHED, comment));
+    } else {
+      res.status(404).send(errorMessage(comment));
+    }
+  }
+
+  async getCommentByPostId(req, res) {
+    const comment = await commentService.getCommentByPostId(req.params.id);
+
+    if (comment) {
+      res.send(successMessage(MESSAGES.FETCHED, comment));
+    } else {
+      res.status(404).send(errorMessage(comment));
+    }
+  }
+
   //Update/edit comment data
   async updateComment(req, res) {
     let comment = await commentService.getCommentById(req.params.id);
