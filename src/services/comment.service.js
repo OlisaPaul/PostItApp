@@ -30,6 +30,18 @@ class CommentService {
       { new: true }
     );
   }
+
+  async deleteComment(id) {
+    return await Comment.findByIdAndRemove(id);
+  }
+
+  async softDeleteComment(id) {
+    const comment = await Comment.findById(id);
+
+    comment.isDeleted = true;
+
+    return await comment.save();
+  }
 }
 
 module.exports = new CommentService();

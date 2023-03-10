@@ -33,5 +33,11 @@ router.patch(
   asyncMiddleware(commentController.updateComment)
 );
 
+router.delete(
+  "/:id",
+  [validateObjectId, auth, admin],
+  asyncMiddleware(commentController.deleteComment)
+);
+
 // Exports the router object which will  be used in the ../startup/routes.js files
 module.exports = router;

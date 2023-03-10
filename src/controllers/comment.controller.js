@@ -81,6 +81,22 @@ class CommentController {
 
     res.send(successMessage(MESSAGES.UPDATED, comment));
   }
+
+  //Delete comment account entirely from the database
+  async deleteComment(req, res) {
+    let comment = await userService.getUserById(req.params.id);
+
+    if (!comment) return res.status(404).send(errorMessage(comment));
+
+    if (req.user._id != comment.userId)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
+
+    await commentService.softDeleteComment(req.params.id);
+
+    res.send(successMessage(MESSAGES.DELETED, comment));
+  }
 }
 
 module.exports = new CommentController();
