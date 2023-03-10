@@ -33,6 +33,22 @@ class CommentController {
     // Sends the created comment as response
     res.send(comment);
   }
+
+  //Update/edit comment data
+  async updateComment(req, res) {
+    let comment = await commentService.getCommentById(req.params.id);
+
+    if (!comment) return res.status(404).send(errorMessage(comment));
+
+    if (req.user._id != comment.userId)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
+
+    comment = await commentService.updateCommentById(req.params.id, req.body);
+
+    res.send(successMessage(MESSAGES.UPDATED, comment));
+  }
 }
 
 module.exports = new CommentController();

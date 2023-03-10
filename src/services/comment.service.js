@@ -5,6 +5,16 @@ class CommentService {
   async createComment(comment) {
     return await comment.save();
   }
+
+  async updateCommentById(id, comment) {
+    return await Comment.findByIdAndUpdate(
+      id,
+      {
+        $set: comment,
+      },
+      { new: true }
+    );
+  }
 }
 
 module.exports = new CommentService();

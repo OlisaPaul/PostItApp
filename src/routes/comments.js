@@ -16,5 +16,12 @@ router.post(
   asyncMiddleware(commentController.createComment)
 );
 
+router.patch(
+  "/:id",
+  [validateMiddleware(validatePatch), validateObjectId, auth],
+  // validateObjectId is a middleware, it makes sure that the commentId parameter is of the right mongoose Id format.
+  asyncMiddleware(commentController.updateComment)
+);
+
 // Exports the router object which will  be used in the ../startup/routes.js files
 module.exports = router;
