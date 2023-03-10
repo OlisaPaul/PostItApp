@@ -6,6 +6,18 @@ const postController = require("../controllers/post.controller");
 const express = require("express");
 const router = express.Router();
 
+router.get(
+  "/",
+  // the asyncMiddleware function is used to handle promise rejection
+  asyncMiddleware(postController.fetchAllPost)
+);
+
+router.get(
+  "/:id",
+  [validateObjectId],
+  asyncMiddleware(postController.getPostById)
+);
+
 router.post(
   "/",
   [validateMiddleware(validate), auth],

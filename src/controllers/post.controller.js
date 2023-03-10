@@ -27,6 +27,28 @@ class PostController {
     res.send(successMessage(MESSAGES.CREATED, post));
   }
 
+  //get post from the database, using their email
+  async getPostById(req, res) {
+    const post = await postService.getPostById(req.params.id);
+
+    if (post) {
+      res.send(successMessage(MESSAGES.FETCHED, post));
+    } else {
+      res.status(404).send(errorMessage(post));
+    }
+  }
+
+  //get all posts in the post collection/table
+  async fetchAllPost(req, res) {
+    const posts = await postService.getAllPosts();
+
+    if (posts) {
+      res.send(successMessage(MESSAGES.FETCHED, posts));
+    } else {
+      res.status(404).send(errorMessage(posts));
+    }
+  }
+
   //Update/edit post data
   async updatePost(req, res) {
     const post = await postService.getPostById(req.params.id);
