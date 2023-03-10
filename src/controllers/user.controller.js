@@ -36,6 +36,7 @@ class UserController {
 
     if (!user) return res.status(404).send(errorMessage(user));
 
+    // makes sure the user can only update their account
     if (req.user._id != user._id)
       return res
         .status(401)
@@ -52,6 +53,7 @@ class UserController {
 
     if (!user) return res.status(404).send(errorMessage(user));
 
+    // makes sure the user can only delete their account
     if (req.user._id != user._id)
       return res
         .status(401)
