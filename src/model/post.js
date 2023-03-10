@@ -19,6 +19,10 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   isDeleted: Boolean,
+  dateCreated: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const Post = mongoose.model("post", postSchema);
