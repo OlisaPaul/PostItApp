@@ -30,3 +30,6 @@ router.patch(
   // validateObjectId is a middleware, it makes sure that the postId parameter is of the right mongoose Id format.
   asyncMiddleware(postController.updatePost)
 );
+
+// Exports the router object which will  be used in the ../startup/routes.js files
+module.exports = router;
