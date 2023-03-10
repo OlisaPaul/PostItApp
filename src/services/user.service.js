@@ -12,7 +12,6 @@ class UserService {
   }
 
   async getUserById(userId) {
-    //Makes email search filter case insensitive and a lot more broad(even if search parameter isnt completely correct.)
     return await User.findOne({ _id: userId, isDeleted: undefined });
   }
 
@@ -21,8 +20,6 @@ class UserService {
   }
 
   async updateUserById(id, user) {
-    //makes email case insensitive
-
     return await User.findByIdAndUpdate(
       id,
       {
@@ -34,6 +31,14 @@ class UserService {
 
   async deleteUser(id) {
     return await User.findByIdAndRemove(id);
+  }
+
+  async softDeleteUser(id) {
+    const user = await User.findById(id);
+
+    user.isDeleted = true;
+
+    return await user.save();
   }
 }
 
