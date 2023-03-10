@@ -23,6 +23,18 @@ class PostService {
       { new: true }
     );
   }
+
+  async deletePost(id) {
+    return await Post.findByIdAndRemove(id);
+  }
+
+  async softDeletePost(id) {
+    const post = await Post.findById(id);
+
+    post.isDeleted = true;
+
+    return await post.save();
+  }
 }
 
 module.exports = new PostService();

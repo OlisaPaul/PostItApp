@@ -1,8 +1,10 @@
 const auth = require("../middleware/auth");
-
 const validateMiddleware = require("../middleware/validate");
+const validateObjectId = require("../middleware/validateObjectId");
 const asyncMiddleware = require("../middleware/async");
 const postController = require("../controllers/post.controller");
+const { Post, validate, validatePatch } = require("../model/post");
+const { User } = require("../model/user");
 const express = require("express");
 const router = express.Router();
 
@@ -18,17 +20,23 @@ router.get(
   asyncMiddleware(postController.getPostById)
 );
 
+router.patch(
+  "/:id",
+  [validateMiddleware(validatePatch), validateObjectId, auth],
+  // validateObjectId is a middleware, it makes sure that the postId parameter is of the right mongoose Id format.
+  asyncMiddleware(postController.updatePost)
+);
+
 router.post(
   "/",
   [validateMiddleware(validate), auth],
   asyncMiddleware(postController.newPost)
 );
 
-router.patch(
+router.delete(
   "/:id",
-  [validateMiddleware(validatePatch), validateObjectId, auth],
-  // validateObjectId is a middleware, it makes sure that the postId parameter is of the right mongoose Id format.
-  asyncMiddleware(postController.updatePost)
+  [validateObjectId, auth],
+  asyncMiddleware(postController.deletePost)
 );
 
 // Exports the router object which will  be used in the ../startup/routes.js files

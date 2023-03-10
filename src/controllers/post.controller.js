@@ -64,6 +64,21 @@ class PostController {
 
     res.send(successMessage(MESSAGES.UPDATED, post));
   }
+
+  async deletePost(req, res) {
+    let post = await postService.getPostById(req.params.id);
+
+    if (!post) return res.status(404).send(errorMessage(post));
+
+    if (req.user._id != post.userId)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("delete")));
+
+    post = await postService.softDeletePost(req.params.id);
+
+    res.send(successMessage(MESSAGES.DELETED, post));
+  }
 }
 
 module.exports = new PostController();
