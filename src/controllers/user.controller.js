@@ -30,6 +30,28 @@ class UserController {
       .send(successMessage(MESSAGES.CREATED, user));
   }
 
+  //get user from the database, using their email
+  async gethUserById(req, res) {
+    const user = await userService.getUserById(req.params.id);
+
+    if (user) {
+      res.send(successMessage(MESSAGES.FETCHED, user));
+    } else {
+      res.status(404).send(errorMessage(user));
+    }
+  }
+
+  //get all users in the user collection/table
+  async fetchAllUsers(req, res) {
+    const users = await userService.getAllUsers();
+
+    if (users) {
+      res.send(successMessage(MESSAGES.FETCHED, users));
+    } else {
+      res.status(404).send(errorMessage(users));
+    }
+  }
+
   //Update/edit user data
   async updateUserProfile(req, res) {
     const user = await userService.getUserById(req.params.id);
