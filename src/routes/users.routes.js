@@ -1,4 +1,4 @@
-const validateMiddleware = require("../middleware/validate");
+const validateMiddleware = require("../middleware/validate.middleware");
 const admin = require("../middleware/admin");
 const auth = require("../middleware/auth");
 const bcrypt = require("bcrypt");
@@ -7,7 +7,7 @@ const { User, validate } = require("../model/user");
 const express = require("express");
 const router = express.Router();
 const asyncMiddleware = require("../middleware/async");
-const validateObjectId = require("../middleware/validateObjectId");
+const validateObjectId = require("../middleware/validateObjectId.middleware");
 const userController = require("../controllers/user.controller");
 
 // This is used for registering a new user.

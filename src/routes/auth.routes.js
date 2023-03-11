@@ -1,4 +1,4 @@
-const validateMiddleware = require("../middleware/validate");
+const validateMiddleware = require("../middleware/validate.middleware");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
