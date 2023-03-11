@@ -19,7 +19,9 @@ const constants = {
     UNAUTHORIZE(operate) {
       return `You cannot ${operate} a resource created by another user`;
     },
-    NOT_FOUND: "Resource not found",
+    NOT_FOUND(Resource) {
+      return `We can't find ${Resource} with the given ID`;
+    },
     DEFAULT:
       "Hotel Management API is Online. Use either of the following routes: (room, roomtype, auth)",
     HOTEL_ROOM_DEFAULT:
