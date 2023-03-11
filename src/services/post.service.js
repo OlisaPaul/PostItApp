@@ -14,6 +14,13 @@ class PostService {
     return await Post.find({ isDeleted: undefined }).sort("-dateCreated");
   }
 
+  async getPostsByUserId(userId) {
+    return await Post.find({
+      userId: userId,
+      isDeleted: undefined,
+    });
+  }
+
   async updatePostById(id, post) {
     return await Post.findByIdAndUpdate(
       id,
