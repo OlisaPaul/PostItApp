@@ -1,10 +1,10 @@
-const { User } = require("../model/user");
-const { Post } = require("../model/post");
-const { Comment } = require("../model/comment");
+const { User } = require("../model/user.model");
+const { Post } = require("../model/post.model");
+const { Comment } = require("../model/comment.model");
 const commentService = require("../services/comment.service");
 const userService = require("../services/user.service");
-const constants = require("../constants");
-const { errorMessage, successMessage } = require("../messages");
+const constants = require("../common/constants.common");
+const { errorMessage, successMessage } = require("../common/messages.common");
 const { MESSAGES } = constants;
 
 class CommentController {

@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
-const admin = require("../middleware/admin");
-const auth = require("../middleware/auth");
-const validateMiddleware = require("../middleware/validate");
-const validateObjectId = require("../middleware/validateObjectId");
-const asyncMiddleware = require("../middleware/async");
+const admin = require("../middleware/admin.middleware");
+const auth = require("../middleware/auth.middleware");
+const validateMiddleware = require("../middleware/validate.middleware");
+const validateObjectId = require("../middleware/validateObjectId.middleware");
+const asyncMiddleware = require("../middleware/async.middleware");
 const express = require("express");
 const router = express.Router();
-const { Comment, validate, validatePatch } = require("../model/comment");
-const { Post } = require("../model/post");
+const { Comment, validate, validatePatch } = require("../model/comment.model");
+const { Post } = require("../model/post.model");
 const commentController = require("../controllers/comment.controller");
 
 router.get(

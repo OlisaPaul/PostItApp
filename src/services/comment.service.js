@@ -1,4 +1,4 @@
-const { Comment } = require("../model/comment");
+const { Comment } = require("../model/comment.model");
 
 class CommentService {
   //Create new comment
