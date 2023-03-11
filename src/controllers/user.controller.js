@@ -1,9 +1,13 @@
 const _ = require("lodash");
-const { User } = require("../model/user");
+const { User } = require("../model/user.model");
 const userService = require("../services/user.service");
-const constants = require("../constants");
-const { MESSAGES } = constants;
-const { errorMessage, successMessage, unAuthMessage } = require("../messages");
+const { MESSAGES } = require("../common/constants.common");
+
+const {
+  errorMessage,
+  successMessage,
+  unAuthMessage,
+} = require("../common/messages.common");
 
 class UserController {
   async getStatus(req, res) {
@@ -37,7 +41,7 @@ class UserController {
     if (user) {
       res.send(successMessage(MESSAGES.FETCHED, user));
     } else {
-      res.status(404).send(errorMessage(user));
+      res.status(404).send(errorMessage(user, "user"));
     }
   }
 
@@ -45,18 +49,14 @@ class UserController {
   async fetchAllUsers(req, res) {
     const users = await userService.getAllUsers();
 
-    if (users) {
-      res.send(successMessage(MESSAGES.FETCHED, users));
-    } else {
-      res.status(404).send(errorMessage(users));
-    }
+    res.send(successMessage(MESSAGES.FETCHED, users));
   }
 
   //Update/edit user data
   async updateUserProfile(req, res) {
     const user = await userService.getUserById(req.params.id);
 
-    if (!user) return res.status(404).send(errorMessage(user));
+    if (!user) return res.status(404).send(errorMessage(user, "user"));
 
     // makes sure the user can only update their account
     if (req.user._id !== user._id)
@@ -73,7 +73,7 @@ class UserController {
   async deleteUserAccount(req, res) {
     const user = await userService.getUserById(req.params.id);
 
-    if (!user) return res.status(404).send(errorMessage(user));
+    if (!user) return res.status(404).send(errorMessage(user, "user"));
 
     // makes sure the user can only delete their account
     if (req.user._id != user._id)

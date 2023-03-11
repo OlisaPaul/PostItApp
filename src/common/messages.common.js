@@ -1,4 +1,4 @@
-const { MESSAGES } = require("./constants");
+const { MESSAGES } = require("./constants.common");
 
 const errorMessage = (data, resource) => {
   return { message: MESSAGES.NOT_FOUND(resource), success: false, data };
