@@ -1,4 +1,4 @@
-const { MESSAGES } = require("../constants");
+const { MESSAGES } = require("../common/constants.common");
 // when the router handler function is passed as an argument to this function,
 // it helps to handle the rejected promise of the handler function
 module.exports = function (handler) {
