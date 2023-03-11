@@ -21,6 +21,14 @@ class PostService {
     });
   }
 
+  async getPostByUserId(userId, postId) {
+    return await Post.find({
+      _id: postId,
+      userId: userId,
+      isDeleted: undefined,
+    });
+  }
+
   async updatePostById(id, post) {
     return await Post.findByIdAndUpdate(
       id,

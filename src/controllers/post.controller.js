@@ -54,7 +54,20 @@ class PostController {
   }
 
   async getPostsByUserId(req, res) {
-    const post = await postService.getPostsByUserId(req.params.id);
+    const posts = await postService.getPostsByUserId(req.params.id);
+
+    if (posts) {
+      res.send(successMessage(MESSAGES.FETCHED, posts));
+    } else {
+      res.status(404).send(errorMessage(posts, "post"));
+    }
+  }
+
+  async getPostByUserId(req, res) {
+    const post = await postService.getPostByUserId(
+      req.params.userId,
+      req.params.postId
+    );
 
     if (post) {
       res.send(successMessage(MESSAGES.FETCHED, post));
