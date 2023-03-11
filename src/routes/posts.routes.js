@@ -1,6 +1,7 @@
 const auth = require("../middleware/auth.middleware");
 const validateMiddleware = require("../middleware/validate.middleware");
 const validateObjectId = require("../middleware/validateObjectId.middleware");
+const validateObjectIdWithArg = require("../middleware/validateObjectIdWithArg.middleware");
 const asyncMiddleware = require("../middleware/async.middleware");
 const postController = require("../controllers/post.controller");
 const { Post, validate, validatePatch } = require("../model/post.model");
@@ -28,6 +29,8 @@ router.get(
 
 router.get(
   "/:postId/user/:userId",
+  validateObjectIdWithArg("postId"),
+  validateObjectIdWithArg("userId"),
   asyncMiddleware(postController.getPostByUserId)
 );
 
