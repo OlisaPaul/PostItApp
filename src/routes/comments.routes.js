@@ -3,6 +3,7 @@ const admin = require("../middleware/admin.middleware");
 const auth = require("../middleware/auth.middleware");
 const validateMiddleware = require("../middleware/validate.middleware");
 const validateObjectId = require("../middleware/validateObjectId.middleware");
+const validateObjectIdWithArg = require("../middleware/validateObjectIdWithArg.middleware");
 const asyncMiddleware = require("../middleware/async.middleware");
 const express = require("express");
 const router = express.Router();
@@ -18,6 +19,20 @@ router.get(
 
 router.get("/post/:id", asyncMiddleware(commentController.getCommentByPostId));
 
+router.get(
+  "/post/:postId/user/:userId",
+  validateObjectIdWithArg("postId"),
+  validateObjectIdWithArg("userId"),
+  asyncMiddleware(commentController.getCommentsOnPostByUserId)
+);
+
+router.get(
+  "/post/:postId/user/:userId/comment/:commentId",
+  validateObjectIdWithArg("postId"),
+  validateObjectIdWithArg("userId"),
+  validateObjectIdWithArg("commentId"),
+  asyncMiddleware(commentController.getSingleCommentOnPostByUserId)
+);
 router.get("/:id", asyncMiddleware(commentController.getCommentById));
 
 router.post(
@@ -35,7 +50,7 @@ router.patch(
 
 router.delete(
   "/:id",
-  [validateObjectId, auth, admin],
+  [validateObjectId, auth],
   asyncMiddleware(commentController.deleteComment)
 );
 

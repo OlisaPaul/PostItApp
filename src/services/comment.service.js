@@ -17,6 +17,23 @@ class CommentService {
     });
   }
 
+  async getCommentsOnPostByUserId(userId, postId) {
+    return await Comment.find({
+      postId: postId,
+      userId: userId,
+      isDeleted: undefined,
+    });
+  }
+
+  async getSingleCommentOnPostByUserId(userId, postId, commentId) {
+    return await Comment.find({
+      postId: postId,
+      userId: userId,
+      _id: commentId,
+      isDeleted: undefined,
+    });
+  }
+
   async getAllComments() {
     return await Comment.find({ isDeleted: undefined });
   }
