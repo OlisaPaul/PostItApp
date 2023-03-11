@@ -19,6 +19,9 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   isDeleted: Boolean,
+  dateCreated: {
+    type: Date,
+  },
 });
 
 const Post = mongoose.model("post", postSchema);
@@ -28,6 +31,7 @@ function validate(post) {
   const schema = Joi.object({
     post: Joi.string().min(4).max(500).required(),
     userId: Joi.objectId().required(),
+    dateCreated: Joi.date(),
   });
 
   return schema.validate(post);
