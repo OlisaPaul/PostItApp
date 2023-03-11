@@ -20,6 +20,17 @@ router.get(
   asyncMiddleware(postController.getPostById)
 );
 
+router.get(
+  "/user/:id",
+  [validateObjectId],
+  asyncMiddleware(postController.getPostsByUserId)
+);
+
+router.get(
+  "/:postId/user/:userId",
+  asyncMiddleware(postController.getPostByUserId)
+);
+
 router.patch(
   "/:id",
   [validateMiddleware(validatePatch), validateObjectId, auth],

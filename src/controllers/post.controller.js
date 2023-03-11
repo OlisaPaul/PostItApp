@@ -43,6 +43,39 @@ class PostController {
     }
   }
 
+  async getPostById(req, res) {
+    const post = await postService.getPostById(req.params.id);
+
+    if (post) {
+      res.send(successMessage(MESSAGES.FETCHED, post));
+    } else {
+      res.status(404).send(errorMessage(post, "post"));
+    }
+  }
+
+  async getPostsByUserId(req, res) {
+    const posts = await postService.getPostsByUserId(req.params.id);
+
+    if (posts) {
+      res.send(successMessage(MESSAGES.FETCHED, posts));
+    } else {
+      res.status(404).send(errorMessage(posts, "post"));
+    }
+  }
+
+  async getPostByUserId(req, res) {
+    const post = await postService.getPostByUserId(
+      req.params.userId,
+      req.params.postId
+    );
+
+    if (post) {
+      res.send(successMessage(MESSAGES.FETCHED, post));
+    } else {
+      res.status(404).send(errorMessage(post, "post"));
+    }
+  }
+
   //get all posts in the post collection/table
   async fetchAllPost(req, res) {
     const posts = await postService.getAllPosts();
