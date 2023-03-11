@@ -1,10 +1,10 @@
-const auth = require("../middleware/auth");
-const validateMiddleware = require("../middleware/validate");
-const validateObjectId = require("../middleware/validateObjectId");
-const asyncMiddleware = require("../middleware/async");
+const auth = require("../middleware/auth.middleware");
+const validateMiddleware = require("../middleware/validate.middleware");
+const validateObjectId = require("../middleware/validateObjectId.middleware");
+const asyncMiddleware = require("../middleware/async.middleware");
 const postController = require("../controllers/post.controller");
-const { Post, validate, validatePatch } = require("../model/post");
-const { User } = require("../model/user");
+const { Post, validate, validatePatch } = require("../model/post.model");
+const { User } = require("../model/user.model");
 const express = require("express");
 const router = express.Router();
 

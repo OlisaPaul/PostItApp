@@ -1,4 +1,4 @@
-const { Post } = require("../model/post");
+const { Post } = require("../model/post.model");
 
 class PostService {
   //Create new post
@@ -11,7 +11,7 @@ class PostService {
   }
 
   async getAllPosts() {
-    return await Post.find({ isDeleted: undefined });
+    return await Post.find({ isDeleted: undefined }).sort("-dateCreated");
   }
 
   async updatePostById(id, post) {

@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { User } = require("../model/user");
+const { User } = require("../model/user.model");
 const userService = require("../services/user.service");
 const { MESSAGES } = require("../common/constants.common");
 
