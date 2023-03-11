@@ -14,11 +14,12 @@ class PostController {
     // Checks for duplicacy
     const user = await User.findById(req.body.userId);
 
-    if (!user) res.status(404).send(errorMessage(user));
+    if (!user) return res.status(404).send(errorMessage(user, "user"));
 
     let post = new Post({
       post: req.body.post,
       userId: req.body.userId,
+      dateCreated: new Date(),
     });
 
     post = await post.save();
@@ -34,7 +35,7 @@ class PostController {
     if (post) {
       res.send(successMessage(MESSAGES.FETCHED, post));
     } else {
-      res.status(404).send(errorMessage(post));
+      res.status(404).send(errorMessage(post, "post"));
     }
   }
 
@@ -42,18 +43,14 @@ class PostController {
   async fetchAllPost(req, res) {
     const posts = await postService.getAllPosts();
 
-    if (posts) {
-      res.send(successMessage(MESSAGES.FETCHED, posts));
-    } else {
-      res.status(404).send(errorMessage(posts));
-    }
+    res.send(successMessage(MESSAGES.FETCHED, posts));
   }
 
   //Update/edit post data
   async updatePost(req, res) {
     const post = await postService.getPostById(req.params.id);
 
-    if (!post) return res.status(404).send(errorMessage(post));
+    if (!post) return res.status(404).send(errorMessage(post, "post"));
 
     if (req.user._id != post.userId)
       return res
@@ -68,7 +65,7 @@ class PostController {
   async deletePost(req, res) {
     let post = await postService.getPostById(req.params.id);
 
-    if (!post) return res.status(404).send(errorMessage(post));
+    if (!post) return res.status(404).send(errorMessage(post, "post"));
 
     if (req.user._id != post.userId)
       return res
