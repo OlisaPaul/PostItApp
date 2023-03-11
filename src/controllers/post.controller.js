@@ -1,8 +1,12 @@
-const { User } = require("../model/user");
-const { Post } = require("../model/post");
+const { User } = require("../model/user.model");
+const { Post } = require("../model/post.model");
 const postService = require("../services/post.service");
-const constants = require("../constants");
-const { errorMessage, successMessage, unAuthMessage } = require("../messages");
+const constants = require("../common/constants.common");
+const {
+  errorMessage,
+  successMessage,
+  unAuthMessage,
+} = require("../common/messages.common");
 const { MESSAGES } = constants;
 
 class PostController {

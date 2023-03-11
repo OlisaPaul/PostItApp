@@ -1,7 +1,7 @@
 // Joi is used for data validation
 const Joi = require("joi");
 const mongoose = require("mongoose");
-const validateObjectId = require("../middleware/validateObjectId");
+const validateObjectId = require("../middleware/validateObjectId.middleware");
 
 // The schema determines the structure of the post collection
 const postSchema = new mongoose.Schema({

@@ -1,4 +1,4 @@
-const { Post } = require("../model/post");
+const { Post } = require("../model/post.model");
 
 class PostService {
   //Create new post
