@@ -1,4 +1,4 @@
-const { Comment } = require("../model/comment");
+const { Comment } = require("../model/comment.model");
 
 class CommentService {
   //Create new comment
@@ -13,6 +13,23 @@ class CommentService {
   async getCommentByPostId(postId) {
     return await Comment.find({
       postId: postId,
+      isDeleted: undefined,
+    });
+  }
+
+  async getCommentsOnPostByUserId(userId, postId) {
+    return await Comment.find({
+      postId: postId,
+      userId: userId,
+      isDeleted: undefined,
+    });
+  }
+
+  async getSingleCommentOnPostByUserId(userId, postId, commentId) {
+    return await Comment.find({
+      postId: postId,
+      userId: userId,
+      _id: commentId,
       isDeleted: undefined,
     });
   }

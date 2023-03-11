@@ -1,9 +1,13 @@
 const _ = require("lodash");
-const { User } = require("../model/user");
+const { User } = require("../model/user.model");
 const userService = require("../services/user.service");
-const constants = require("../constants");
-const { MESSAGES } = constants;
-const { errorMessage, successMessage, unAuthMessage } = require("../messages");
+const { MESSAGES } = require("../common/constants.common");
+
+const {
+  errorMessage,
+  successMessage,
+  unAuthMessage,
+} = require("../common/messages.common");
 
 class UserController {
   async getStatus(req, res) {
@@ -30,11 +34,29 @@ class UserController {
       .send(successMessage(MESSAGES.CREATED, user));
   }
 
+  //get user from the database, using their email
+  async gethUserById(req, res) {
+    const user = await userService.getUserById(req.params.id);
+
+    if (user) {
+      res.send(successMessage(MESSAGES.FETCHED, user));
+    } else {
+      res.status(404).send(errorMessage(user, "user"));
+    }
+  }
+
+  //get all users in the user collection/table
+  async fetchAllUsers(req, res) {
+    const users = await userService.getAllUsers();
+
+    res.send(successMessage(MESSAGES.FETCHED, users));
+  }
+
   //Update/edit user data
   async updateUserProfile(req, res) {
     const user = await userService.getUserById(req.params.id);
 
-    if (!user) return res.status(404).send(errorMessage(user));
+    if (!user) return res.status(404).send(errorMessage(user, "user"));
 
     // makes sure the user can only update their account
     if (req.user._id !== user._id)
@@ -51,10 +73,10 @@ class UserController {
   async deleteUserAccount(req, res) {
     const user = await userService.getUserById(req.params.id);
 
-    if (!user) return res.status(404).send(errorMessage(user));
+    if (!user) return res.status(404).send(errorMessage(user, "user"));
 
     // makes sure the user can only delete their account
-    if (req.user._id !== user._id)
+    if (req.user._id != user._id)
       return res
         .status(401)
         .send(unAuthMessage(MESSAGES.UNAUTHORIZE("delete")));

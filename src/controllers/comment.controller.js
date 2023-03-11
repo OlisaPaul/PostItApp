@@ -1,10 +1,10 @@
-const { User } = require("../model/user");
-const { Post } = require("../model/post");
-const { Comment } = require("../model/comment");
+const { User } = require("../model/user.model");
+const { Post } = require("../model/post.model");
+const { Comment } = require("../model/comment.model");
 const commentService = require("../services/comment.service");
 const userService = require("../services/user.service");
-const constants = require("../constants");
-const { errorMessage, successMessage } = require("../messages");
+const constants = require("../common/constants.common");
+const { errorMessage, successMessage } = require("../common/messages.common");
 const { MESSAGES } = constants;
 
 class CommentController {
@@ -41,7 +41,7 @@ class CommentController {
     if (comments) {
       res.send(successMessage(MESSAGES.FETCHED, comments));
     } else {
-      res.status(404).send(errorMessage(comments));
+      res.status(404).send(errorMessage(comments, "comments"));
     }
   }
 
@@ -52,7 +52,7 @@ class CommentController {
     if (comment) {
       res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(comment));
+      res.status(404).send(errorMessage(comment, "comment"));
     }
   }
 
@@ -62,7 +62,34 @@ class CommentController {
     if (comment) {
       res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(comment));
+      res.status(404).send(errorMessage(comment, "comments"));
+    }
+  }
+
+  async getCommentsOnPostByUserId(req, res) {
+    const post = await commentService.getCommentsOnPostByUserId(
+      req.params.userId,
+      req.params.postId
+    );
+
+    if (post) {
+      res.send(successMessage(MESSAGES.FETCHED, post));
+    } else {
+      res.status(404).send(errorMessage(post, "post"));
+    }
+  }
+
+  async getSingleCommentOnPostByUserId(req, res) {
+    const post = await commentService.getSingleCommentOnPostByUserId(
+      req.params.userId,
+      req.params.postId,
+      req.params.commentId
+    );
+
+    if (post) {
+      res.send(successMessage(MESSAGES.FETCHED, post));
+    } else {
+      res.status(404).send(errorMessage(post, "post"));
     }
   }
 
@@ -70,7 +97,7 @@ class CommentController {
   async updateComment(req, res) {
     let comment = await commentService.getCommentById(req.params.id);
 
-    if (!comment) return res.status(404).send(errorMessage(comment));
+    if (!comment) return res.status(404).send(errorMessage(comment, "comment"));
 
     if (req.user._id != comment.userId)
       return res
@@ -84,9 +111,9 @@ class CommentController {
 
   //Delete comment account entirely from the database
   async deleteComment(req, res) {
-    let comment = await userService.getUserById(req.params.id);
+    let comment = await commentService.getCommentById(req.params.id);
 
-    if (!comment) return res.status(404).send(errorMessage(comment));
+    if (!comment) return res.status(404).send(errorMessage(comment, "comment"));
 
     if (req.user._id != comment.userId)
       return res

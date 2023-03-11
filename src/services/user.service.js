@@ -1,4 +1,4 @@
-const { User } = require("../model/user");
+const { User } = require("../model/user.model");
 const bcrypt = require("bcrypt");
 
 class UserService {
@@ -16,7 +16,7 @@ class UserService {
   }
 
   async getAllUsers() {
-    return await User.find({ isDeleted: undefined });
+    return await User.find({ isDeleted: undefined }).sort({ _id: -1 });
   }
 
   async updateUserById(id, user) {

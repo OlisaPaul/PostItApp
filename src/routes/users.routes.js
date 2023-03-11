@@ -1,13 +1,13 @@
-const validateMiddleware = require("../middleware/validate");
-const admin = require("../middleware/admin");
-const auth = require("../middleware/auth");
+const validateMiddleware = require("../middleware/validate.middleware");
+const admin = require("../middleware/admin.middleware");
+const auth = require("../middleware/auth.middleware");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
-const { User, validate } = require("../model/user");
+const { User, validate } = require("../model/user.model");
 const express = require("express");
 const router = express.Router();
-const asyncMiddleware = require("../middleware/async");
-const validateObjectId = require("../middleware/validateObjectId");
+const asyncMiddleware = require("../middleware/async.middleware");
+const validateObjectId = require("../middleware/validateObjectId.middleware");
 const userController = require("../controllers/user.controller");
 
 // This is used for registering a new user.
