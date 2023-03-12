@@ -67,29 +67,29 @@ class CommentController {
   }
 
   async getCommentsOnPostByUserId(req, res) {
-    const post = await commentService.getCommentsOnPostByUserId(
+    const comment = await commentService.getCommentsOnPostByUserId(
       req.params.userId,
       req.params.postId
     );
 
-    if (post) {
-      res.send(successMessage(MESSAGES.FETCHED, post));
+    if (comment && comment.length > 0) {
+      res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(post, "post"));
+      res.status(404).send(errorMessage(comment, "comment"));
     }
   }
 
   async getSingleCommentOnPostByUserId(req, res) {
-    const post = await commentService.getSingleCommentOnPostByUserId(
+    const comment = await commentService.getSingleCommentOnPostByUserId(
       req.params.userId,
       req.params.postId,
       req.params.commentId
     );
 
-    if (post) {
-      res.send(successMessage(MESSAGES.FETCHED, post));
+    if (comment && comment.length > 0) {
+      res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(post, "post"));
+      res.status(404).send(errorMessage(comment, "comment"));
     }
   }
 
