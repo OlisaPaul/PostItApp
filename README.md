@@ -19,6 +19,8 @@ Use the
 [Postman
 Documentation](https://documenter.getpostman.com/view/22093717/2s93JtR4Mm) to get a better idea on how to use the API
 
+Database documentation can be found [here](https://dbdesigner.page.link/oaVHbQ6LhUXWZ3qB9)
+
 ## Installation
 
 To Install the PostIt app:
