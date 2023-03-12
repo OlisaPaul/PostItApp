@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
   },
   isAdmin: Boolean,
   isDeleted: Boolean,
+  avatarUrl: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {

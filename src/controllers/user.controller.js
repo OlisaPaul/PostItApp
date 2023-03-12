@@ -8,6 +8,7 @@ const {
   successMessage,
   unAuthMessage,
 } = require("../common/messages.common");
+const generateRandomAvatar = require("../utils/generateRandomAvatar.utils");
 
 class UserController {
   async getStatus(req, res) {
@@ -22,12 +23,15 @@ class UserController {
 
     user = new User(_.pick(req.body, ["name", "password", "email"]));
 
+    user.avatarUrl = await generateRandomAvatar(user.email);
+
     user = await userService.createUser(user);
 
     // it creates a token which is sent as an header to the client
     const token = user.generateAuthToken();
 
-    user = _.pick(user, ["_id", "name", "email"]);
+    user = _.pick(user, ["_id", "name", "email", "avatarUrl"]);
+
     res
       .header("x-auth-header", token)
       // It determines what is sent back to the client
