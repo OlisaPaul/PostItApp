@@ -23,9 +23,6 @@ const constants = {
       return `We can't find ${resource} with the given ${resourceId} ID`;
     },
     AUTH_DEFAULT: "",
-    LOGOUT: "Successfully logged out! Have a nice day.",
-    LOGIN_FIRST: "Error! Login first",
-    LOGGED_IN: "Successfully logged in",
     LOGIN_FAILURE: "Unable to login. Username or password incorrect",
   },
   errorMessage(data) {

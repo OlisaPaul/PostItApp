@@ -19,7 +19,10 @@ class UserController {
   async register(req, res) {
     // Checks if a user already exist by using the email id
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).send("User already registered");
+    if (user)
+      return res
+        .status(400)
+        .send({ success: false, message: "User already registered" });
 
     user = new User(_.pick(req.body, ["name", "password", "email"]));
 
