@@ -1,11 +1,14 @@
-const { User } = require("../model/user.model");
-const { Post } = require("../model/post.model");
 const { Comment } = require("../model/comment.model");
 const commentService = require("../services/comment.service");
 const userService = require("../services/user.service");
+const postService = require("../services/post.service");
 const constants = require("../common/constants.common");
-const { errorMessage, successMessage } = require("../common/messages.common");
 const { MESSAGES } = constants;
+const {
+  errorMessage,
+  successMessage,
+  unAuthMessage,
+} = require("../common/messages.common");
 
 class CommentController {
   async getStatus(req, res) {
@@ -14,13 +17,13 @@ class CommentController {
   //Create a new comment
 
   async createComment(req, res) {
-    const user = await User.findById(req.body.userId);
+    const user = await userService.getUserById(req.body.userId);
 
-    if (!user) res.status(404).send(errorMessage(user));
+    if (!user) res.status(404).send(errorMessage(user, "user"));
 
-    const post = await Post.findById(req.body.postId);
+    const post = await postService.getPostById(req.body.postId);
 
-    if (!post) res.status(404).send(errorMessage(post));
+    if (!post) res.status(404).send(errorMessage(post, "post"));
 
     let comment = new Comment({
       comment: req.body.comment,
@@ -38,11 +41,7 @@ class CommentController {
   async fetchAllComment(req, res) {
     const comments = await commentService.getAllComments();
 
-    if (comments) {
-      res.send(successMessage(MESSAGES.FETCHED, comments));
-    } else {
-      res.status(404).send(errorMessage(comments, "comments"));
-    }
+    res.send(successMessage(MESSAGES.FETCHED, comments));
   }
 
   //get comment from the database, using their email
@@ -62,34 +61,52 @@ class CommentController {
     if (comment) {
       res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(comment, "comments"));
+      res.status(404).send(errorMessage(comment, "comment", "post"));
     }
   }
 
   async getCommentsOnPostByUserId(req, res) {
-    const post = await commentService.getCommentsOnPostByUserId(
+    const commentsOnPost = await commentService.getCommentByPostId(
+      req.params.postId
+    );
+
+    if (commentsOnPost.length <= 0)
+      return res
+        .status(404)
+        .send(errorMessage(commentsOnPost, "comment", "post"));
+
+    const comment = await commentService.getCommentsOnPostByUserId(
       req.params.userId,
       req.params.postId
     );
 
-    if (post) {
-      res.send(successMessage(MESSAGES.FETCHED, post));
+    if (comment && comment.length > 0) {
+      res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(post, "post"));
+      res.status(404).send(errorMessage(comment, "comment"));
     }
   }
 
   async getSingleCommentOnPostByUserId(req, res) {
-    const post = await commentService.getSingleCommentOnPostByUserId(
+    const commentsOnPost = await commentService.getCommentByPostId(
+      req.params.postId
+    );
+
+    if (commentsOnPost.length <= 0)
+      return res
+        .status(404)
+        .send(errorMessage(commentsOnPost, "comment", "post"));
+
+    const comment = await commentService.getSingleCommentOnPostByUserId(
       req.params.userId,
       req.params.postId,
       req.params.commentId
     );
 
-    if (post) {
-      res.send(successMessage(MESSAGES.FETCHED, post));
+    if (comment && comment.length > 0) {
+      res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
-      res.status(404).send(errorMessage(post, "post"));
+      res.status(404).send(errorMessage(comment, "comment"));
     }
   }
 
@@ -118,7 +135,7 @@ class CommentController {
     if (req.user._id != comment.userId)
       return res
         .status(401)
-        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("delete")));
 
     await commentService.softDeleteComment(req.params.id);
 

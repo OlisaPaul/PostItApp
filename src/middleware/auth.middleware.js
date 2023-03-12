@@ -6,7 +6,10 @@ const config = require("config");
 module.exports = function (req, res, next) {
   // Checks to see if the token is present, in the x-auth-token header property.
   const token = req.header("x-auth-token");
-  if (!token) return res.status(401).send("Access Denied. No token provided");
+  if (!token)
+    return res
+      .status(401)
+      .send({ success: false, message: "Access Denied. No token provided" });
 
   try {
     // If the token is present in the request, this verifies the request.
@@ -16,6 +19,6 @@ module.exports = function (req, res, next) {
     next();
   } catch (ex) {
     // it throws an error which is caught and sent to the client as response.
-    res.status(400).send("Invalid Web Token");
+    res.status(400).send({ success: false, message: "Invalid Web Token" });
   }
 };

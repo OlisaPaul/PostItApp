@@ -1,7 +1,11 @@
 const { MESSAGES } = require("./constants.common");
 
-const errorMessage = (data, resource) => {
-  return { message: MESSAGES.NOT_FOUND(resource), success: false, data };
+const errorMessage = (data, resource, resourceId = resource) => {
+  return {
+    message: MESSAGES.NOT_FOUND(resource, resourceId),
+    success: false,
+    data,
+  };
 };
 
 const successMessage = (message, data) => {
