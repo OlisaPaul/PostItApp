@@ -9,6 +9,10 @@ This is a social Media App, that lets users register, login, create new posts an
 - Public (non-authenticated) users can only view post and comments made by other users
 - Authenticated users can create posts, reply posts. They can also modify and delete their posts and replies.
 
+## Live Link
+
+Here is the render [Live Link](https://postitapp.onrender.com)
+
 ## Documentation
 
 Use the
