@@ -5,6 +5,7 @@ const posts = require("../routes/posts.routes");
 const auth = require("../routes/auth.routes");
 const users = require("../routes/users.routes");
 const comments = require("../routes/comments.routes");
+const redirect = require("../routes/redirect.routes");
 
 module.exports = function (app) {
   app.use(express.urlencoded({ extended: false }));
@@ -18,6 +19,7 @@ module.exports = function (app) {
   app.use("/api/v1/comments", comments);
   app.use("/api/v1/users", users);
   app.use("/api/v1/auth", auth);
+  app.use("/docs", redirect);
 
   // it calls the error middleware if there was a rejected promise.
   app.use(error);
