@@ -1,7 +1,7 @@
 // This auth property is used to check if a client is authorized to carry out a function or not.
 // It expects a token to be sent as an header in the request sent by the client.
 const jwt = require("jsonwebtoken");
-const config = require("config");
+require("dotenv").config();
 
 module.exports = function (req, res, next) {
   // Checks to see if the token is present, in the x-auth-token header property.
@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
   try {
     // If the token is present in the request, this verifies the request.
     // It sets the req.user property with the decoded token, if the token is valid
-    const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
+    const decoded = jwt.verify(token, process.env.jwtPrivateKey);
     req.user = decoded;
     next();
   } catch (ex) {
