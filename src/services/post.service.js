@@ -21,6 +21,13 @@ class PostService {
     });
   }
 
+  async getPostsByUsername(username) {
+    return await Post.find({
+      username,
+      isDeleted: undefined,
+    });
+  }
+
   async getPostByUserId(userId, postId) {
     return await Post.find({
       _id: postId,
