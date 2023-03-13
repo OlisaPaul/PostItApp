@@ -3,7 +3,7 @@ const admin = require("../middleware/admin.middleware");
 const auth = require("../middleware/auth.middleware");
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
-const { User, validate } = require("../model/user.model");
+const { validate, validatePatch } = require("../model/user.model");
 const express = require("express");
 const router = express.Router();
 const asyncMiddleware = require("../middleware/async.middleware");
@@ -28,7 +28,8 @@ router.get(
 router.put(
   "/:id",
   validateObjectId,
-  validateMiddleware(validate),
+  auth,
+  validateMiddleware(validatePatch),
   asyncMiddleware(userController.updateUserProfile)
 );
 
