@@ -2,8 +2,7 @@ const { Comment } = require("../model/comment.model");
 const commentService = require("../services/comment.service");
 const userService = require("../services/user.service");
 const postService = require("../services/post.service");
-const constants = require("../common/constants.common");
-const { MESSAGES } = constants;
+const { MESSAGES } = require("../common/constants.common");
 const {
   errorMessage,
   successMessage,
