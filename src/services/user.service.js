@@ -19,6 +19,10 @@ class UserService {
     return await User.findOne({ email, isDeleted: undefined });
   }
 
+  async getUserByUsername(username) {
+    return await User.findOne({ username, isDeleted: undefined });
+  }
+
   async getAllUsers() {
     return await User.find({ isDeleted: undefined }).sort({ _id: -1 });
   }
