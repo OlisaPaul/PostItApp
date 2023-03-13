@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatarImgTag: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {

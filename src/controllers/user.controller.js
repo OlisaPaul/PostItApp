@@ -26,14 +26,16 @@ class UserController {
 
     user = new User(_.pick(req.body, ["name", "password", "email"]));
 
-    user.avatarUrl = await generateRandomAvatar(user.email);
+    const avatarUrl = await generateRandomAvatar(user.email);
+    user.avatarUrl = avatarUrl;
+    user.avatarImgTag = `<img src=${avatarUrl} alt=${user._id}>`;
 
     user = await userService.createUser(user);
 
     // it creates a token which is sent as an header to the client
     const token = user.generateAuthToken();
 
-    user = _.pick(user, ["_id", "name", "email", "avatarUrl"]);
+    user = _.pick(user, ["_id", "name", "email", "avatarUrl", "avatarImgTag"]);
 
     res
       .header("x-auth-header", token)
