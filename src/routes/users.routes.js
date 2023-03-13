@@ -20,6 +20,11 @@ router.post(
 router.get("/", asyncMiddleware(userController.fetchAllUsers));
 
 router.get(
+  "/username/:username",
+  asyncMiddleware(userController.getUserByUsername)
+);
+
+router.get(
   "/:id",
   validateObjectId,
   asyncMiddleware(userController.gethUserById)
