@@ -34,7 +34,7 @@ router.get(
   asyncMiddleware(postController.getPostByUserId)
 );
 
-router.patch(
+router.put(
   "/:id",
   [validateMiddleware(validatePatch), validateObjectId, auth],
   // validateObjectId is a middleware, it makes sure that the postId parameter is of the right mongoose Id format.
