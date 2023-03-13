@@ -40,9 +40,7 @@ function validate(comment) {
 
 function validatePatch(comment) {
   const schema = Joi.object({
-    comment: Joi.string().min(5).max(500),
-    userId: Joi.objectId(),
-    postId: Joi.objectId(),
+    comment: Joi.string().min(5).max(500).required(),
   });
 
   return schema.validate(comment);
