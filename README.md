@@ -8,6 +8,8 @@ This is a social Media App, that lets users register, login, create new posts an
 - Users can create, update and delete their own accounts
 - Public (non-authenticated) users can only view post and comments made by other users
 - Authenticated users can create posts, reply posts. They can also modify and delete their posts and replies.
+- Posts (PostIts), users and comments are soft deleted, this means they are still in the database for recording purposes.
+- PostIts which where deleted by users, can still be found in database are stored for the purpose of quality and assurance.
 
 ## API Live Link
 
