@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -54,6 +58,7 @@ function validate(user) {
     name: Joi.string().min(4).max(255).required(),
     password: Joi.string().min(5).max(1024).required(),
     email: Joi.string().email().min(5).max(255).required(),
+    username: Joi.string().min(4).max(255).required(),
   });
 
   return schema.validate(user);

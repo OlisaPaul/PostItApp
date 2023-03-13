@@ -24,18 +24,36 @@ class UserController {
         .status(400)
         .send({ success: false, message: "User already registered" });
 
-    user = new User(_.pick(req.body, ["name", "password", "email"]));
+    const username = await User.findOne({ username: `@${req.body.username}` });
+    if (username)
+      return res.status(400).send({
+        success: false,
+        message: "Username has been taken, please use another one",
+      });
+
+    user = new User(
+      _.pick(req.body, ["name", "password", "email", "username"])
+    );
 
     const avatarUrl = await generateRandomAvatar(user.email);
     user.avatarUrl = avatarUrl;
     user.avatarImgTag = `<img src=${avatarUrl} alt=${user._id}>`;
+
+    user.username = `@${req.body.username}`;
 
     user = await userService.createUser(user);
 
     // it creates a token which is sent as an header to the client
     const token = user.generateAuthToken();
 
-    user = _.pick(user, ["_id", "name", "email", "avatarUrl", "avatarImgTag"]);
+    user = _.pick(user, [
+      "_id",
+      "name",
+      "email",
+      "username",
+      "avatarUrl",
+      "avatarImgTag",
+    ]);
 
     res
       .header("x-auth-header", token)
@@ -46,6 +64,16 @@ class UserController {
   //get user from the database, using their email
   async gethUserById(req, res) {
     const user = await userService.getUserById(req.params.id);
+
+    if (user) {
+      res.send(successMessage(MESSAGES.FETCHED, user));
+    } else {
+      res.status(404).send(errorMessage(user, "user"));
+    }
+  }
+
+  async getUserByUsername(req, res) {
+    const user = await userService.getUserByUsername(req.params.username);
 
     if (user) {
       res.send(successMessage(MESSAGES.FETCHED, user));
