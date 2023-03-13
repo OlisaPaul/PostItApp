@@ -33,7 +33,11 @@ router.get(
   validateObjectIdWithArg("commentId"),
   asyncMiddleware(commentController.getSingleCommentOnPostByUserId)
 );
-router.get("/:id", asyncMiddleware(commentController.getCommentById));
+router.get(
+  "/:id",
+  validateObjectId,
+  asyncMiddleware(commentController.getCommentById)
+);
 
 router.post(
   "/",
