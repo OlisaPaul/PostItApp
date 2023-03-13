@@ -2,9 +2,9 @@
 const express = require("express");
 const app = express();
 
-require("./src/startup/routes.startup")(app);
-require("./src/startup/database.startup")();
-require("./src/startup/validation.startup")();
+require("./startup/routes.startup")(app);
+require("./startup/database.startup")();
+require("./startup/validation.startup")();
 
 // intializes port with the PORT environment variable if it exists, if not it assigns 3000 to it
 const port = process.env.PORT || 3000;
