@@ -47,10 +47,6 @@ class PostController {
   async getPostsByUserId(req, res) {
     const posts = await postService.getPostsByUserId(req.params.id);
 
-    const user = await User.findById(req.body.id);
-
-    if (!user) return res.status(404).send(errorMessage(user, "user"));
-
     if (posts.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, posts));
     } else {
@@ -64,7 +60,7 @@ class PostController {
       req.params.postId
     );
 
-    if (post) {
+    if (post.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, post));
     } else {
       res.status(404).send(errorMessage(post, "post"));
@@ -80,7 +76,7 @@ class PostController {
 
   //Update/edit post data
   async updatePost(req, res) {
-    const post = await postService.getPostById(req.params.id);
+    let post = await postService.getPostById(req.params.id);
 
     if (!post) return res.status(404).send(errorMessage(post, "post"));
 
@@ -89,7 +85,7 @@ class PostController {
         .status(401)
         .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
 
-    await postService.updatePostById(req.params.id, req.body);
+    post = await postService.updatePostById(req.params.id, req.body);
 
     res.send(successMessage(MESSAGES.UPDATED, post));
   }
