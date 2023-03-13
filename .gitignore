@@ -2,7 +2,7 @@
 
 # dependencies
 /src/startup/routes.startup.js
-/.env
+.env
 /node_modules
 /.pnp
 .pnp.js
