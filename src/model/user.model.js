@@ -59,5 +59,16 @@ function validate(user) {
   return schema.validate(user);
 }
 
+function validatePatch(user) {
+  const schema = Joi.object({
+    name: Joi.string().min(4).max(255),
+    password: Joi.string().min(5).max(1024),
+    email: Joi.string().email().min(5).max(255),
+  });
+
+  return schema.validate(user);
+}
+
+exports.validatePatch = validatePatch;
 exports.validate = validate;
 exports.User = User;
