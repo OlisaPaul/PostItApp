@@ -22,7 +22,7 @@ const constants = {
     NOT_FOUND(resource, resourceId) {
       return `We can't find ${resource} with the given ${resourceId} ID`;
     },
-    AUTH_DEFAULT: "",
+    SUCCESFUL_LOGIN: "Sucessfully logged in",
     LOGIN_FAILURE: "Unable to login. Username or password incorrect",
   },
   errorMessage(data) {

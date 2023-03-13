@@ -1,6 +1,7 @@
 const { User } = require("../model/user.model");
 const { Post } = require("../model/post.model");
 const postService = require("../services/post.service");
+const userService = require("../services/user.service");
 const constants = require("../common/constants.common");
 const {
   errorMessage,
@@ -43,23 +44,17 @@ class PostController {
     }
   }
 
-  async getPostById(req, res) {
-    const post = await postService.getPostById(req.params.id);
-
-    if (post) {
-      res.send(successMessage(MESSAGES.FETCHED, post));
-    } else {
-      res.status(404).send(errorMessage(post, "post"));
-    }
-  }
-
   async getPostsByUserId(req, res) {
     const posts = await postService.getPostsByUserId(req.params.id);
 
-    if (posts) {
+    const user = await User.findById(req.body.id);
+
+    if (!user) return res.status(404).send(errorMessage(user, "user"));
+
+    if (posts.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, posts));
     } else {
-      res.status(404).send(errorMessage(posts, "post"));
+      res.status(404).send(errorMessage(posts, "post", "user"));
     }
   }
 
