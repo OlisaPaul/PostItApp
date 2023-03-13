@@ -40,7 +40,7 @@ function validate(post) {
 
 function validatePatch(post) {
   const schema = Joi.object({
-    post: Joi.string().min(4).max(500),
+    post: Joi.string().min(4).max(500).required,
     dateCreated: Joi.date(),
   });
 

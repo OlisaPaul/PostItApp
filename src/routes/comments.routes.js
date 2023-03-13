@@ -41,11 +41,11 @@ router.get(
 
 router.post(
   "/",
-  [validateMiddleware(validate)],
+  [validateMiddleware(validate), auth],
   asyncMiddleware(commentController.createComment)
 );
 
-router.patch(
+router.put(
   "/:id",
   [validateMiddleware(validatePatch), validateObjectId, auth],
   // validateObjectId is a middleware, it makes sure that the commentId parameter is of the right mongoose Id format.

@@ -24,6 +24,11 @@ class CommentController {
 
     if (!post) res.status(404).send(errorMessage(post, "post"));
 
+    if (req.user._id != req.body.userId)
+      return res
+        .status(401)
+        .send(unAuthMessage(MESSAGES.UNAUTHORIZE("create")));
+
     let comment = new Comment({
       comment: req.body.comment,
       userId: req.body.userId,
@@ -33,7 +38,7 @@ class CommentController {
     await commentService.createComment(comment);
 
     // Sends the created comment as response
-    res.send(comment);
+    res.send(successMessage(MESSAGES.CREATED, comment));
   }
 
   //get all comments in the comment collection/table

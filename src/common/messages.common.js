@@ -21,7 +21,7 @@ const loginError = () => {
 };
 
 const loginSuccess = (data) => {
-  return { message: MESSAGES.SUCCESFUL_LOGIN, success: true, data };
+  return { message: MESSAGES.SUCCESFUL_LOGIN, success: true, token: data };
 };
 
 exports.errorMessage = errorMessage;
