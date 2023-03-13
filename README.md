@@ -9,11 +9,17 @@ This is a social Media App, that lets users register, login, create new posts an
 - Public (non-authenticated) users can only view post and comments made by other users
 - Authenticated users can create posts, reply posts. They can also modify and delete their posts and replies.
 
+## API Live Link
+
+Here is the render [API Live Link](https://postitapp.onrender.com/docs)
+
 ## Documentation
 
 Use the
 [Postman
 Documentation](https://documenter.getpostman.com/view/22093717/2s93JtR4Mm) to get a better idea on how to use the API
+
+Database documentation can be found [here](https://dbdesigner.page.link/oaVHbQ6LhUXWZ3qB9)
 
 ## Installation
 
