@@ -73,9 +73,16 @@ class UserController {
         .status(401)
         .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
 
-    user = await userService.updateUserById(req.params.id, req.body);
+    let updatedUser = req.body;
 
-    res.send(successMessage(MESSAGES.UPDATED, user));
+    const avatarUrl = await generateRandomAvatar(user.email);
+
+    updatedUser.avatarUrl = avatarUrl;
+    updatedUser.avatarImgTag = `<img src=${avatarUrl} alt=${user._id}>`;
+
+    updatedUser = await userService.updateUserById(req.params.id, updatedUser);
+
+    res.send(successMessage(MESSAGES.UPDATED, updatedUser));
   }
 
   //Delete user account entirely from the database
