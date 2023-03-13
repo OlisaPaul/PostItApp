@@ -68,6 +68,23 @@ class PostController {
     }
   }
 
+  async getPostByUsername(req, res) {
+    const user = await userService.getUserByUsername(req.params.username);
+
+    if (!user)
+      return res
+        .status(401)
+        .send({ success: false, message: "we can't find user" });
+
+    const post = await postService.getPostsByUserId(user._id);
+
+    if (post.length > 0) {
+      res.send(successMessage(MESSAGES.FETCHED, post));
+    } else {
+      res.status(404).send(errorMessage(post, "post"));
+    }
+  }
+
   //get all posts in the post collection/table
   async fetchAllPost(req, res) {
     const posts = await postService.getAllPosts();

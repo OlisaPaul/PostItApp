@@ -22,6 +22,11 @@ router.get(
 );
 
 router.get(
+  "/username/:username",
+  asyncMiddleware(postController.getPostByUsername)
+);
+
+router.get(
   "/user/:id",
   [validateObjectId],
   asyncMiddleware(postController.getPostsByUserId)
