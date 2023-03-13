@@ -26,14 +26,16 @@ class UserController {
 
     user = new User(_.pick(req.body, ["name", "password", "email"]));
 
-    user.avatarUrl = await generateRandomAvatar(user.email);
+    const avatarUrl = await generateRandomAvatar(user.email);
+    user.avatarUrl = avatarUrl;
+    user.avatarImgTag = `<img src=${avatarUrl} alt=${user._id}>`;
 
     user = await userService.createUser(user);
 
     // it creates a token which is sent as an header to the client
     const token = user.generateAuthToken();
 
-    user = _.pick(user, ["_id", "name", "email", "avatarUrl"]);
+    user = _.pick(user, ["_id", "name", "email", "avatarUrl", "avatarImgTag"]);
 
     res
       .header("x-auth-header", token)
@@ -61,17 +63,17 @@ class UserController {
 
   //Update/edit user data
   async updateUserProfile(req, res) {
-    const user = await userService.getUserById(req.params.id);
+    let user = await userService.getUserById(req.params.id);
 
     if (!user) return res.status(404).send(errorMessage(user, "user"));
 
     // makes sure the user can only update their account
-    if (req.user._id !== user._id)
+    if (user._id != req.user._id)
       return res
         .status(401)
         .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
 
-    await userService.updateUserById(req.params.id, req.body);
+    user = await userService.updateUserById(req.params.id, req.body);
 
     res.send(successMessage(MESSAGES.UPDATED, user));
   }

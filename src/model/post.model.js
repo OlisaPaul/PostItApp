@@ -41,7 +41,6 @@ function validate(post) {
 function validatePatch(post) {
   const schema = Joi.object({
     post: Joi.string().min(4).max(500),
-    userId: Joi.objectId(),
     dateCreated: Joi.date(),
   });
 
