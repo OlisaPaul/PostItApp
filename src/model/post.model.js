@@ -40,9 +40,9 @@ function validate(post) {
 
 function validatePatch(post) {
   const schema = Joi.object({
-    name: Joi.string().min(5),
-    price: Joi.number().min(0).max(150000),
-    postType: Joi.objectId(),
+    post: Joi.string().min(4).max(500),
+    userId: Joi.objectId(),
+    dateCreated: Joi.date(),
   });
 
   return schema.validate(post);
