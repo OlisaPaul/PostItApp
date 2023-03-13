@@ -22,7 +22,7 @@ const commentSchema = new mongoose.Schema({
     ref: "post",
     required: true,
   },
-  isDeleted: Boolean,
+  isDeleted: Boolean, // a flag to know which resource is deleted by the user.
 });
 
 const Comment = mongoose.model("comment", commentSchema);
@@ -38,8 +38,10 @@ function validate(comment) {
   return schema.validate(comment);
 }
 
+// this is seperate from the main one =, because a user may decide to modify one propery
 function validatePatch(comment) {
   const schema = Joi.object({
+    // only comment is allowed to be modified
     comment: Joi.string().min(5).max(500).required(),
   });
 
