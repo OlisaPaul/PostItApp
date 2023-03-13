@@ -46,6 +46,7 @@ class PostService {
   async softDeletePost(id) {
     const post = await Post.findById(id);
 
+    // this flags the isDeleted property of the comment to true, telling all get methods not to return it user
     post.isDeleted = true;
 
     return await post.save();
