@@ -1,8 +1,8 @@
 const _ = require("lodash");
 const jwt = require("jsonwebtoken");
-const config = require("config");
 const mongoose = require("mongoose");
 const Joi = require("joi");
+require("dotenv").config();
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin, name: this.name },
-    config.get("jwtPrivateKey")
+    process.env.jwtPrivateKey
   );
   return token;
 };
