@@ -28,6 +28,7 @@ router.get(
 router.put(
   "/:id",
   validateObjectId,
+  // auth is used to make authenticate a user.
   auth,
   validateMiddleware(validatePatch),
   asyncMiddleware(userController.updateUserProfile)

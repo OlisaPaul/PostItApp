@@ -24,7 +24,7 @@ class PostController {
     let post = new Post({
       post: req.body.post,
       userId: req.body.userId,
-      dateCreated: new Date(),
+      dateCreated: new Date(), // set the dateCreted property to the time the post was created
     });
 
     post = await post.save();
@@ -47,6 +47,7 @@ class PostController {
   async getPostsByUserId(req, res) {
     const posts = await postService.getPostsByUserId(req.params.id);
 
+    // checks for an empty array
     if (posts.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, posts));
     } else {
@@ -95,6 +96,7 @@ class PostController {
 
     if (!post) return res.status(404).send(errorMessage(post, "post"));
 
+    //makes sure a user can't delete a post created by another user.
     if (req.user._id != post.userId)
       return res
         .status(401)

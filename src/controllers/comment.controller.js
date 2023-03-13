@@ -24,6 +24,7 @@ class CommentController {
 
     if (!post) res.status(404).send(errorMessage(post, "post"));
 
+    // makes sure the authenticated user is the same person as the user passed in the body of request
     if (req.user._id != req.body.userId)
       return res
         .status(401)
@@ -106,7 +107,7 @@ class CommentController {
       req.params.postId,
       req.params.commentId
     );
-
+    // it checks to see if the comment is not an empty array
     if (comment && comment.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, comment));
     } else {
@@ -120,6 +121,7 @@ class CommentController {
 
     if (!comment) return res.status(404).send(errorMessage(comment, "comment"));
 
+    // it makes sure a user cannot update a comment made by another user
     if (req.user._id != comment.userId)
       return res
         .status(401)
@@ -136,6 +138,7 @@ class CommentController {
 
     if (!comment) return res.status(404).send(errorMessage(comment, "comment"));
 
+    // it makes sure a user cannot update a comment made by another user
     if (req.user._id != comment.userId)
       return res
         .status(401)
