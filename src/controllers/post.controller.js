@@ -1,6 +1,7 @@
 const { User } = require("../model/user.model");
 const { Post } = require("../model/post.model");
 const postService = require("../services/post.service");
+const userService = require("../services/user.service");
 const constants = require("../common/constants.common");
 const {
   errorMessage,
@@ -43,23 +44,13 @@ class PostController {
     }
   }
 
-  async getPostById(req, res) {
-    const post = await postService.getPostById(req.params.id);
-
-    if (post) {
-      res.send(successMessage(MESSAGES.FETCHED, post));
-    } else {
-      res.status(404).send(errorMessage(post, "post"));
-    }
-  }
-
   async getPostsByUserId(req, res) {
     const posts = await postService.getPostsByUserId(req.params.id);
 
-    if (posts) {
+    if (posts.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, posts));
     } else {
-      res.status(404).send(errorMessage(posts, "post"));
+      res.status(404).send(errorMessage(posts, "post", "user"));
     }
   }
 
@@ -69,7 +60,7 @@ class PostController {
       req.params.postId
     );
 
-    if (post) {
+    if (post.length > 0) {
       res.send(successMessage(MESSAGES.FETCHED, post));
     } else {
       res.status(404).send(errorMessage(post, "post"));
@@ -85,7 +76,7 @@ class PostController {
 
   //Update/edit post data
   async updatePost(req, res) {
-    const post = await postService.getPostById(req.params.id);
+    let post = await postService.getPostById(req.params.id);
 
     if (!post) return res.status(404).send(errorMessage(post, "post"));
 
@@ -94,7 +85,7 @@ class PostController {
         .status(401)
         .send(unAuthMessage(MESSAGES.UNAUTHORIZE("update")));
 
-    await postService.updatePostById(req.params.id, req.body);
+    post = await postService.updatePostById(req.params.id, req.body);
 
     res.send(successMessage(MESSAGES.UPDATED, post));
   }
